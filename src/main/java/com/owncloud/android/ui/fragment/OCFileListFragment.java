@@ -58,6 +58,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.owncloud.android.MainApp;
 import com.owncloud.android.R;

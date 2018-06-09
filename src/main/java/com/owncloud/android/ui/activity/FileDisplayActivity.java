@@ -674,6 +674,17 @@ public class FileDisplayActivity extends HookActivity
         }
     }
 
+    public void refreshListOfFilesFragment(OCFile file, boolean fromSearch) {
+        OCFileListFragment fileListFragment = getListOfFilesFragment();
+        if (fileListFragment != null) {
+            fileListFragment.listDirectory(file, MainApp.isOnlyOnDevice(), fromSearch);
+            setupToolbar();
+
+            updateActionBarTitleAndHomeButton(file);
+            getSupportActionBar().setHomeButtonEnabled(true);
+        }
+    }
+
     public void resetSearchView() {
         OCFileListFragment fileListFragment = getListOfFilesFragment();
 
@@ -2027,7 +2038,12 @@ public class FileDisplayActivity extends HookActivity
     private void onCreateFolderOperationFinish(CreateFolderOperation operation,
                                                RemoteOperationResult result) {
         if (result.isSuccess()) {
-            refreshListOfFilesFragment(false);
+            String remotePath = operation.getRemotePath().substring(0, operation.getRemotePath().length() - 1);
+//            String newFolder = remotePath.substring(remotePath.lastIndexOf('/') + 1);
+
+            OCFile newFolder = new OCFile(remotePath);
+
+            refreshListOfFilesFragment(newFolder, false);
         } else {
             try {
                 DisplayUtils.showSnackMessage(
